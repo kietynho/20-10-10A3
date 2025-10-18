@@ -3,168 +3,165 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Women's Day 💝</title>
+<title>Happy Women's Day 10A3 💖</title>
 <style>
   body {
     margin: 0;
     height: 100vh;
     background: linear-gradient(180deg, #ffe6f2, #fff0f8, #ffffff);
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     font-family: 'Segoe UI', sans-serif;
   }
 
-  /* Trái tim hồng rỗng - đứng yên */
-  .heart {
-    position: relative;
-    width: 250px;
-    height: 220px;
-    border: 8px solid #ff69b4;
-    border-radius: 50% 50% 0 0;
-    transform: rotate(-45deg);
-    margin-bottom: 40px;
-  }
-  .heart::before,
-  .heart::after {
-    content: "";
-    position: absolute;
-    width: 250px;
-    height: 220px;
-    border: 8px solid #ff69b4;
-    border-radius: 50%;
-  }
-  .heart::before {
-    top: 0;
-    left: 50%;
-  }
-  .heart::after {
-    top: 50%;
-    left: 0;
-  }
-
-  /* Dòng chữ chính trong tim */
+  /* Chữ chính giữa tim */
   .center-text {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-    font-size: 30px;
-    color: deeppink;
+    transform: translate(-50%, -50%);
+    color: #ff1493;
+    font-size: 32px;
     font-weight: bold;
-    white-space: nowrap;
-    text-shadow: 0 0 10px #ff9ac6, 0 0 20px #ff69b4;
+    text-align: center;
+    text-shadow: 0 0 15px #ff69b4, 0 0 30px #ffb6c1;
+    pointer-events: none;
   }
 
-  /* Chữ rơi xuống */
+  /* Chữ rơi */
   .falling-text {
     position: absolute;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: hotpink;
-    font-size: 24px;
+    top: -40px;
+    color: #ff69b4;
+    font-size: 22px;
     font-weight: 600;
-    text-shadow: 0 0 6px #ffb6c1;
-    animation: fall 5s linear infinite;
+    opacity: 0.9;
+    text-shadow: 0 0 6px #ffc0cb;
+    animation: fall linear forwards;
   }
 
   @keyframes fall {
-    0% {
-      top: -50px;
-      opacity: 1;
-    }
-    100% {
-      top: 110vh;
-      opacity: 0;
-    }
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(15deg); opacity: 0; }
   }
 
-  /* Hiệu ứng hoa/cánh rơi */
+  /* Hoa rơi */
   .petal {
     position: absolute;
     top: -50px;
     font-size: 20px;
-    opacity: 0.8;
-    animation: petalFall linear infinite;
+    animation: petalFall linear forwards;
   }
 
   @keyframes petalFall {
-    0% {
-      transform: translateY(0) rotate(0deg);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(110vh) rotate(360deg);
-      opacity: 0;
-    }
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
   }
 
-  /* Lấp lánh nhẹ */
-  .sparkle {
+  /* Ghi credit */
+  .credit {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0;
-    animation: sparkle 2s ease-in-out infinite;
+    bottom: 10px;
+    right: 15px;
+    color: #ff69b4;
+    font-size: 14px;
+    opacity: 0.7;
+    font-style: italic;
   }
 
-  @keyframes sparkle {
-    0%, 100% { opacity: 0; transform: scale(0.5); }
-    50% { opacity: 1; transform: scale(1.2); }
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 </style>
 </head>
 <body>
 
-<div class="heart">
-  <div class="center-text">Happy Women's Day 💝</div>
-</div>
+<canvas id="heartCanvas"></canvas>
+<div class="center-text">Happy Women's Day<br>10A3 💖</div>
+<div class="credit">by Kietynho</div>
 
 <script>
-  const messages = ["20/10 vui vẻ nha 💗", "20/10 hạnh phúc"];
-  const petals = ["🌸", "🌷", "💗", "💞", "🌺"];
+  const canvas = document.getElementById("heartCanvas");
+  const ctx = canvas.getContext("2d");
+  let W = window.innerWidth, H = window.innerHeight;
+  canvas.width = W; canvas.height = H;
 
-  // Tạo chữ rơi xuống
-  function createFallingText() {
-    const text = document.createElement('div');
-    text.className = 'falling-text';
-    text.textContent = messages[Math.floor(Math.random() * messages.length)];
-    text.style.left = Math.random() * 80 + 10 + '%';
-    text.style.animationDuration = (4 + Math.random() * 2) + 's';
-    document.body.appendChild(text);
-    setTimeout(() => text.remove(), 6000);
+  const particles = [];
+
+  function heartFunction(t) {
+    // Công thức hình trái tim
+    return {
+      x: 16 * Math.pow(Math.sin(t), 3),
+      y: -(13 * Math.cos(t) - 5 * Math.cos(2 * t)
+         - 2 * Math.cos(3 * t) - Math.cos(4 * t))
+    };
   }
-  setInterval(createFallingText, 900);
 
-  // Tạo hoa/cánh rơi
+  function spawnParticle() {
+    const t = Math.random() * Math.PI * 2;
+    const pos = heartFunction(t);
+    const x = W / 2 + pos.x * 15;
+    const y = H / 2 + pos.y * 15;
+    const size = Math.random() * 3 + 1;
+    const color = `rgba(255, 105, 180, ${Math.random() * 0.7 + 0.5})`; // hồng đậm
+    particles.push({ x, y, size, color, life: 1 });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      p.life -= 0.01;
+      p.size *= 0.98;
+    }
+    for (let i = particles.length - 1; i >= 0; i--) {
+      if (particles[i].life <= 0) particles.splice(i, 1);
+    }
+  }
+
+  function loop() {
+    for (let i = 0; i < 50; i++) spawnParticle(); // chỉnh số này để spawn nhiều hơn
+    draw();
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  // Tạo hoa rơi
+  const petals = ["🌸", "🌷", "💗", "🌺"];
   function createPetal() {
     const petal = document.createElement('div');
     petal.className = 'petal';
     petal.textContent = petals[Math.floor(Math.random() * petals.length)];
     petal.style.left = Math.random() * 100 + 'vw';
-    petal.style.animationDuration = (6 + Math.random() * 4) + 's';
+    petal.style.animationDuration = (6 + Math.random() * 5) + 's';
     petal.style.fontSize = (16 + Math.random() * 12) + 'px';
     document.body.appendChild(petal);
     setTimeout(() => petal.remove(), 10000);
   }
   setInterval(createPetal, 600);
 
-  // Hiệu ứng lấp lánh quanh tim
-  function createSparkle() {
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-    sparkle.style.left = 50 + (Math.random() * 200 - 100) + 'px';
-    sparkle.style.top = 50 + (Math.random() * 200 - 100) + 'px';
-    sparkle.style.animationDelay = Math.random() * 2 + 's';
-    document.querySelector('.heart').appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 3000);
+  // Tạo chữ rơi
+  const messages = ["20/10 vui vẻ nha 💗", "Chúc bạn xinh đẹp & hạnh phúc 🌸"];
+  function createFallingText() {
+    const text = document.createElement('div');
+    text.className = 'falling-text';
+    text.textContent = messages[Math.floor(Math.random() * messages.length)];
+    text.style.left = Math.random() * 80 + 10 + '%';
+    text.style.animationDuration = (4 + Math.random() * 3) + 's';
+    document.body.appendChild(text);
+    setTimeout(() => text.remove(), 6000);
   }
-  setInterval(createSparkle, 400);
+  setInterval(createFallingText, 1200);
+
+  window.addEventListener('resize', () => {
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W; canvas.height = H;
+  });
 </script>
 
 </body>
