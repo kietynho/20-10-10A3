@@ -1,136 +1,186 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hiệu ứng Intro Web</title>
-    <style>
-        /* === CSS CODE === */
-        body {
-            background-color: #0d0d0d; /* Nền đen tương tự video */
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            overflow: hidden; /* Ngăn cuộn */
-        }
-
-        /* Container cho Logo/Chữ */
-        .intro-container {
-            text-align: center;
-        }
-
-        /* Hiệu ứng cho Chữ (Neon Glow) */
-        .neon-text {
-            font-size: 3vw; /* Kích thước chữ linh hoạt */
-            font-weight: bold;
-            color: #ffcc00; /* Màu vàng neon */
-            text-shadow: 
-                0 0 10px #ffcc00, /* Lớp bóng 1 */
-                0 0 20px #ffcc00, /* Lớp bóng 2 */
-                0 0 30px #ffcc00, /* Lớp bóng 3 */
-                0 0 40px rgba(255, 204, 0, 0.7), /* Bóng mờ rộng */
-                0 0 50px rgba(255, 204, 0, 0.5);
-            letter-spacing: 2px;
-            
-            /* Animation */
-            opacity: 0; /* Bắt đầu ẩn */
-            animation: fadeInGlow 3s forwards; /* Tên animation, thời gian, giữ trạng thái cuối */
-            animation-delay: 1s; /* Chờ 1 giây sau khi logo xuất hiện */
-        }
-
-        /* CSS cho Logo (Ví dụ: dùng chữ thay cho hình ảnh) */
-        .logo-placeholder {
-            font-size: 8vw;
-            color: #ff0000; /* Màu đỏ tương tự logo trong video */
-            margin-bottom: 20px;
-            
-            /* Hiệu ứng 3D đơn giản */
-            text-shadow: 
-                -2px -2px 0 #880000, 
-                2px 2px 0 #ff5555;
-
-            /* Animation */
-            animation: popOut 1s ease-out forwards;
-            opacity: 0;
-        }
-        
-        /* Chỉnh sửa Chữ để Dễ Dàng Thay đổi (Ví dụ: Chữ 1) */
-        .text-line-1 {
-            font-size: 2vw;
-            color: #cccccc;
-            margin-top: 50px;
-            opacity: 0;
-            animation: fadeIn 2s forwards;
-            animation-delay: 4s; /* Chờ hoạt hình Neon kết thúc */
-        }
-        
-        /* === KEYFRAMES (Hoạt hình) === */
-
-        /* Hoạt hình xuất hiện Logo (phóng to dần) */
-        @keyframes popOut {
-            0% { 
-                transform: scale(0.5) rotateY(90deg); /* Bắt đầu nhỏ và quay */
-                opacity: 0; 
-            }
-            100% { 
-                transform: scale(1) rotateY(0deg); 
-                opacity: 1; 
-            }
-        }
-
-        /* Hoạt hình xuất hiện và Sáng lên (Neon) */
-        @keyframes fadeInGlow {
-            0% { 
-                opacity: 0; 
-                filter: brightness(0.5); /* Giảm độ sáng */
-                transform: translateY(20px);
-            }
-            100% { 
-                opacity: 1; 
-                filter: brightness(1); /* Sáng đầy đủ */
-                transform: translateY(0);
-            }
-        }
-
-        /* Hoạt hình xuất hiện dần cho các dòng chữ phụ */
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        /* Điều chỉnh kích thước chữ trên màn hình nhỏ */
-        @media (max-width: 768px) {
-            .neon-text { font-size: 6vw; }
-            .logo-placeholder { font-size: 12vw; }
-            .text-line-1 { font-size: 4vw; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopee Clone - Mua sắm online</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body>
+  <!-- Top Banner -->
+  <div class="top-banner">
+    <div class="container">
+      <span>🎉 Free Ship cho đơn từ 0đ • Voucher giảm đến 50%</span>
+    </div>
+  </div>
 
-<div class="intro-container">
-    <div class="logo-placeholder">★</div> 
-    
-    <h1 class="neon-text">新時代 新青年 新作為</h1>
-    
-    <p class="text-line-1">Web được code bằng HTML/CSS</p>
-</div>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo" id="logo">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>Shopee</span>
+      </a>
 
-<script>
-    // Bạn có thể dùng JS để thay đổi nội dung chữ sau một khoảng thời gian
-    /* setTimeout(() => {
-        document.querySelector('.neon-text').textContent = "Bắt Đầu Sự Kiện Mới!";
-    }, 7000); 
-    */
-</script>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm, thương hiệu..." autocomplete="off" />
+        <button id="searchBtn" aria-label="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
 
+      <div class="header-actions">
+        <button class="cart-btn" id="cartBtn" aria-label="Giỏ hàng">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <button class="user-btn" id="userBtn" aria-label="Tài khoản">
+          <i class="fa-regular fa-user"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Category Nav -->
+  <nav class="category-nav">
+    <div class="container">
+      <ul class="category-list" id="categoryList">
+        <li><button class="cat-btn active" data-cat="all">Tất cả</button></li>
+        <li><button class="cat-btn" data-cat="fashion">Thời trang</button></li>
+        <li><button class="cat-btn" data-cat="electronics">Điện tử</button></li>
+        <li><button class="cat-btn" data-cat="home">Nhà cửa</button></li>
+        <li><button class="cat-btn" data-cat="beauty">Làm đẹp</button></li>
+        <li><button class="cat-btn" data-cat="food">Thực phẩm</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <!-- Hero Banner -->
+      <section class="hero" id="hero">
+        <div class="hero-slide active">
+          <div class="hero-content">
+            <h2>Siêu Sale 9.9</h2>
+            <p>Giảm đến 70% • Freeship toàn quốc</p>
+            <button class="btn-primary" onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})">Mua ngay</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Flash Sale -->
+      <section class="section" id="flashSale">
+        <div class="section-header">
+          <h2><i class="fa-solid fa-bolt"></i> Flash Sale</h2>
+          <div class="countdown" id="countdown">
+            <span id="cdHours">00</span>:<span id="cdMins">00</span>:<span id="cdSecs">00</span>
+          </div>
+        </div>
+        <div class="product-grid" id="flashProducts"></div>
+      </section>
+
+      <!-- All Products -->
+      <section class="section" id="productsSection">
+        <div class="section-header">
+          <h2>Gợi ý hôm nay</h2>
+          <div class="sort-bar">
+            <select id="sortSelect">
+              <option value="default">Phổ biến</option>
+              <option value="price-asc">Giá tăng dần</option>
+              <option value="price-desc">Giá giảm dần</option>
+              <option value="sold">Bán chạy</option>
+            </select>
+          </div>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+        <div class="no-result hidden" id="noResult">
+          <i class="fa-solid fa-box-open"></i>
+          <p>Không tìm thấy sản phẩm phù hợp</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <h4>Chăm sóc khách hàng</h4>
+        <ul>
+          <li><a href="#">Trung tâm trợ giúp</a></li>
+          <li><a href="#">Hướng dẫn mua hàng</a></li>
+          <li><a href="#">Vận chuyển</a></li>
+          <li><a href="#">Trả hàng & Hoàn tiền</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Về Shopee</h4>
+        <ul>
+          <li><a href="#">Giới thiệu</a></li>
+          <li><a href="#">Tuyển dụng</a></li>
+          <li><a href="#">Điều khoản</a></li>
+          <li><a href="#">Chính sách bảo mật</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Theo dõi</h4>
+        <div class="socials">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Thanh toán</h4>
+        <div class="payment-icons">
+          <i class="fa-brands fa-cc-visa"></i>
+          <i class="fa-brands fa-cc-mastercard"></i>
+          <i class="fa-brands fa-cc-paypal"></i>
+          <span class="momo">MoMo</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">© 2026 Shopee Clone. Demo frontend only.</div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Giỏ hàng (<span id="cartCountText">0</span>)</h3>
+      <button class="close-btn" id="closeCart" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Tổng cộng:</span>
+        <strong id="cartTotal">0₫</strong>
+      </div>
+      <button class="btn-primary btn-block" id="checkoutBtn">Thanh toán</button>
+    </div>
+  </aside>
+
+  <!-- Product Detail Modal -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <button class="close-btn modal-close" id="closeModal" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Checkout Modal -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-content checkout-content">
+      <button class="close-btn modal-close" id="closeCheckout" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+      <div class="checkout-body" id="checkoutBody"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
-
-
-
